@@ -16,36 +16,23 @@ import {
   StatusBar,
 } from 'react-native';
 
-import { Button } from "react-native-elements";
-import Icon from 'react-native-vector-icons/FontAwesome';
+// Redux store
+import { createStore, combineReducers } from "redux";
+import { Provider } from "react-redux";
+import productsReducer from "./store/reducers/products";
+
+const rootReducer = combineReducers({
+  products: productsReducer
+})
+
+const store = createStore(rootReducer)
 
 const App = () => {
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-        >
-          <View>
-            <Button
-              title='Ahoj'
-              icon={
-                <Icon
-                  name="arrow-right"
-                  size={15}
-                />
-              }
-            />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <Provider store={store}>
+      <View></View>
+    </Provider>
   );
 };
-
-const styles = StyleSheet.create({
-
-});
 
 export default App;
