@@ -7,19 +7,14 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
 
 // Redux store
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import productsReducer from "./store/reducers/products";
+
+// Navigation
+import ShopNavigator from "./navigation/ShopNavigator";
 
 const rootReducer = combineReducers({
   products: productsReducer
@@ -30,7 +25,7 @@ const store = createStore(rootReducer)
 const App = () => {
   return (
     <Provider store={store}>
-      <View></View>
+      <ShopNavigator />
     </Provider>
   );
 };
