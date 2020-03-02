@@ -3,6 +3,9 @@ import { View, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform }
 import { Button, Card } from "react-native-elements";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+// Contstants
+import Colors from "../../constants/Colors";
+
 const ProductItem = props => {
     let TouchableCmp = TouchableOpacity;
 
@@ -60,6 +63,7 @@ const styles = StyleSheet.create({
     },
     button: {
         paddingHorizontal: 10,
+        backgroundColor: Colors.primary
     },
     buttonTitle: {
         paddingHorizontal: 15
