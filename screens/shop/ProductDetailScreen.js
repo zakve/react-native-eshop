@@ -13,18 +13,28 @@ const ProductDetailScreen = props => {
     const selectedProduct = useSelector(state => state.products.availableProducts.find(prod => prod.id === productId))
 
     return (
-        <ScrollView>
-            <Image
-                source={{ uri: selectedProduct.imageUrl }}
-                style={styles.image}
-            />
-            <Button
-                title='Add to Cart'
-                onPress={() => { }}
-                buttonStyle={styles.button}
-            />
-            <Text style={styles.price}>${selectedProduct.price.toFixed(2)}</Text>
-            <Text style={styles.description}>{selectedProduct.description}</Text>
+        <ScrollView
+            contentContainerStyle={styles.scrollview}>
+            <View>
+                <Image
+                    source={{ uri: selectedProduct.imageUrl }}
+                    style={styles.image}
+                />
+                <Text style={styles.description}>{selectedProduct.description}</Text>
+            </View>
+            <View style={styles.bottom}>
+                <View style={styles.bottomPrice}>
+                    <Text>Total{"\n"}amount</Text>
+                    <Text style={styles.price}>${selectedProduct.price.toFixed(2)}</Text>
+                </View>
+                <View style={styles.bottomButton}>
+                    <Button
+                        title='Add to Cart'
+                        onPress={() => { }}
+                        buttonStyle={styles.button}
+                    />
+                </View>
+            </View>
         </ScrollView>
     )
 }
@@ -36,23 +46,43 @@ ProductDetailScreen.navigationOptions = navData => {
 }
 
 const styles = StyleSheet.create({
+    scrollview: {
+        flex: 1,
+        justifyContent: 'space-between'
+    },
     image: {
         width: '100%',
         height: 300
     },
     button: {
-        backgroundColor: Colors.primary
+        backgroundColor: Colors.primary,
+        padding: 15
     },
     price: {
-        fontSize: 20,
-        color: '#888',
-        textAlign: "center",
-        marginVertical: 20,
+        fontSize: 30,
+        fontWeight: "bold"
     },
     description: {
         fontSize: 14,
         textAlign: "center",
-        marginHorizontal: 20
+        margin: 20
+    },
+    bottom: {
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 20,
+        borderTopWidth: 1,
+        borderColor: '#aaa'
+    },
+    bottomPrice: {
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingRight: 20
+    },
+    bottomButton: {
+        flex: 1
     }
 });
 
