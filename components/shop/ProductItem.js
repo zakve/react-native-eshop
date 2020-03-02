@@ -21,12 +21,12 @@ const ProductItem = props => {
                 >
                     <View style={styles.actions}>
                         <Button
-                            title='Detail'
-                            type="outline"
+                            title='View Detail'
+                            type="clear"
                             onPress={props.onViewDetail}
                         />
                         <Button
-                            title='Buy  '
+                            title='To Cart'
                             icon={
                                 <Icon
                                     name="shopping-cart"
@@ -34,7 +34,8 @@ const ProductItem = props => {
                                     color="white"
                                 />}
                             iconRight={true}
-                            iconContainerStyle={styles.btnIcon}
+                            buttonStyle={styles.button}
+                            titleStyle={styles.buttonTitle}
                             onPress={props.onAddToCart}
                         />
                     </View>
@@ -56,6 +57,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: "center"
+    },
+    button: {
+        paddingHorizontal: 10,
+    },
+    buttonTitle: {
+        paddingHorizontal: 15
     }
 })
 
