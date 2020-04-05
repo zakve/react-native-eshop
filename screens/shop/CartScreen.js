@@ -2,7 +2,8 @@ import React from 'react';
 import { View, StyleSheet, Button, ScrollView, SafeAreaView } from 'react-native';
 import { ListItem, Icon, Text } from 'react-native-elements'
 
-import { UseSelector, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeFromCart } from '../../store/actions/cart';
 
 // Components
 import PriceSummary from "../../components/shop/PriceSummary";
@@ -11,6 +12,7 @@ import PriceSummary from "../../components/shop/PriceSummary";
 import Colors from "../../constants/Colors";
 
 const CartScreen = props => {
+    const dispatch = useDispatch();
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
     const cartItems = useSelector(state => {
         const transformedCartItems = [];
@@ -28,6 +30,10 @@ const CartScreen = props => {
 
     const orderHandler = param => {
         console.log("Order All")
+    }
+
+    const removeHandler = pid => {
+        dispatch(removeFromCart(pid))
     }
 
     return (
@@ -50,12 +56,16 @@ const CartScreen = props => {
                             <ListItem
                                 key={i}
                                 title={item.productTitle}
-                                rightTitle={`$${item.sum}`}
-                                rightSubtitle={item.quantity.toString()}
+                                rightTitle={`$ ${item.sum}`}
+                                rightTitleStyle={styles.listPrice}
+                                rightSubtitle={
+                                    item.quantity.toString()
+                                }
                                 rightIcon={
                                     <Icon
                                         name='delete'
-                                        onPress={() => { }}
+                                        color="grey"
+                                        onPress={() => { removeHandler(item.productId) }}
                                     />
                                 }
                                 bottomDivider
@@ -99,6 +109,9 @@ const styles = StyleSheet.create({
     },
     bottom: {
         backgroundColor: 'white'
+    },
+    listPrice: {
+        color: Colors.primary
     },
     emptyContainer: {
         flex: 1,
