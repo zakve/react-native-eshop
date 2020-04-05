@@ -28,6 +28,8 @@ const CartScreen = props => {
         console.log("Order All")
     }
 
+    console.log(cartItems)
+
     return (
         <ScrollView
             contentContainerStyle={styles.scrollview}>
@@ -38,6 +40,7 @@ const CartScreen = props => {
             </SafeAreaView>
             <SafeAreaView style={styles.bottom}>
                 <PriceSummary
+                    title="Total amount"
                     price={cartTotalAmount}
                     buttonTitle="Order Now"
                     orderHandler={orderHandler}

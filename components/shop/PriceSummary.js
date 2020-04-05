@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { Button } from "react-native-elements";
 
 // Constants
@@ -9,7 +9,7 @@ const PriceSummary = props => {
     return (
         <View style={styles.bottom}>
             <View style={styles.bottomPrice}>
-                <Text>Total{"\n"}amount</Text>
+                <Text>{props.title}</Text>
                 <Text style={styles.price}>${props.price.toFixed(2)}</Text>
             </View>
             <View style={styles.bottomButton}>
@@ -30,15 +30,17 @@ const styles = StyleSheet.create({
     bottom: {
         flexDirection: "row",
         alignItems: "center",
-        paddingLeft: 20,
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingBottom: Platform.OS === 'android' ? 20 : 0,
         borderTopWidth: 1,
         borderColor: '#aaa',
         backgroundColor: "#ffffff"
     },
     bottomPrice: {
         flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
+        //flexDirection: "row",
+        alignItems: "flex-start",
         justifyContent: "space-between",
         paddingRight: 20
     },
@@ -50,8 +52,9 @@ const styles = StyleSheet.create({
         padding: 15
     },
     price: {
-        fontSize: 25,
-        fontWeight: "bold"
+        fontSize: 30,
+        fontWeight: "bold",
+        color: Colors.primary
     },
 })
 

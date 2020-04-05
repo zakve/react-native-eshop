@@ -33,6 +33,7 @@ const ProductDetailScreen = props => {
             </SafeAreaView>
             <SafeAreaView style={styles.bottom}>
                 <PriceSummary
+                    title="Price"
                     buttonTitle="Add to Cart"
                     price={selectedProduct.price}
                     orderHandler={addCartHandler} />
