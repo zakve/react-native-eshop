@@ -37,7 +37,11 @@ const CartScreen = props => {
                 </View>
             </SafeAreaView>
             <SafeAreaView style={styles.bottom}>
-                <PriceSummary price={cartTotalAmount} buttonTitle="Order Now" orderHandler={orderHandler} />
+                <PriceSummary
+                    price={cartTotalAmount}
+                    buttonTitle="Order Now"
+                    orderHandler={orderHandler}
+                />
             </SafeAreaView>
         </ScrollView>
     )

@@ -35,7 +35,7 @@ const ProductDetailScreen = props => {
                 <PriceSummary
                     buttonTitle="Add to Cart"
                     price={selectedProduct.price}
-                    orderHandler={addCartHandler()} />
+                    orderHandler={addCartHandler} />
             </SafeAreaView>
         </ScrollView>
     )
