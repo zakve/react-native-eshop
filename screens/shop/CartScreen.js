@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, ScrollView, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Button, ScrollView, SafeAreaView } from 'react-native';
+import { ListItem, Icon, Text } from 'react-native-elements'
+
 import { UseSelector, useSelector } from 'react-redux';
 
 // Components
@@ -28,15 +30,38 @@ const CartScreen = props => {
         console.log("Order All")
     }
 
-    console.log(cartItems)
-
     return (
         <ScrollView
             contentContainerStyle={styles.scrollview}>
-            <SafeAreaView>
-                <View>
-                    <Text>CART ITEMS</Text>
-                </View>
+            <SafeAreaView style={styles.flex}>
+                {
+                    cartItems.length === 0
+                        ?
+                        <View style={styles.emptyContainer}>
+                            <Text h4 style={styles.emptyText}>Empty basket</Text>
+                            <Icon
+                                name="remove-shopping-cart"
+                                size={70}
+                                color="grey"
+                            />
+                        </View>
+                        :
+                        cartItems.map((item, i) => (
+                            <ListItem
+                                key={i}
+                                title={item.productTitle}
+                                rightTitle={`$${item.sum}`}
+                                rightSubtitle={item.quantity.toString()}
+                                rightIcon={
+                                    <Icon
+                                        name='delete'
+                                        onPress={() => { }}
+                                    />
+                                }
+                                bottomDivider
+                            />
+                        ))
+                }
             </SafeAreaView>
             <SafeAreaView style={styles.bottom}>
                 <PriceSummary
@@ -51,6 +76,9 @@ const CartScreen = props => {
 }
 
 const styles = StyleSheet.create({
+    flex: {
+        flex: 1
+    },
     scrollview: {
         flex: 1,
         justifyContent: 'space-between'
@@ -71,6 +99,17 @@ const styles = StyleSheet.create({
     },
     bottom: {
         backgroundColor: 'white'
+    },
+    emptyContainer: {
+        flex: 1,
+        paddingHorizontal: 20,
+        paddingVertical: 50,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    emptyText: {
+        color: "grey",
+        marginBottom: 20
     }
 });
 
