@@ -25,7 +25,7 @@ const CartScreen = props => {
                 sum: state.cart.items[key].sum
             })
         }
-        return transformedCartItems;
+        return transformedCartItems.sort((a, b) => a.productId > b.productId ? 1 : -1);
     })
 
     const orderHandler = param => {
@@ -56,7 +56,7 @@ const CartScreen = props => {
                             <ListItem
                                 key={i}
                                 title={item.productTitle}
-                                rightTitle={`$ ${item.sum}`}
+                                rightTitle={`$ ${item.sum.toFixed(2)}`}
                                 rightTitleStyle={styles.listPrice}
                                 rightSubtitle={
                                     item.quantity.toString()
