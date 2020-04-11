@@ -4,6 +4,7 @@ import { ListItem, Icon, Text } from 'react-native-elements'
 
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart } from '../../store/actions/cart';
+import { addOrder } from "../../store/actions/order";
 
 // Components
 import PriceSummary from "../../components/shop/PriceSummary";
@@ -29,7 +30,7 @@ const CartScreen = props => {
     })
 
     const orderHandler = param => {
-        console.log("Order All")
+        addOrder(cartItems, cartTotalAmount)
     }
 
     const removeHandler = pid => {
