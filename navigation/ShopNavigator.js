@@ -1,3 +1,5 @@
+import React from 'react';
+import { Icon } from "react-native-elements";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createDrawerNavigator } from 'react-navigation-drawer';
@@ -24,12 +26,18 @@ const ProductsNavigator = createStackNavigator({
     ProductDetail: ProductDetailScreen,
     Cart: CartScreen
 }, {
+    navigationOptions: {
+        drawerIcon: drawerConfig => <Icon name="shopping-cart" color={drawerConfig.tintColor} />
+    },
     defaultNavigationOptions: defaultNavOptions
 });
 
 const OrdersNavigator = createStackNavigator({
     Orders: OrdersScreen
 }, {
+    navigationOptions: {
+        drawerIcon: drawerConfig => <Icon name="list" color={drawerConfig.tintColor} />
+    },
     defaultNavigationOptions: defaultNavOptions
 });
 
