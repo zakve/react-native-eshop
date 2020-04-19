@@ -13,15 +13,15 @@ import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import productsReducer from "./store/reducers/products";
 import cartReducer from "./store/reducers/cart";
-import ordersReducer from "./store/reducers/order";
+import ordersReducer from "./store/reducers/orders";
 
 // Navigation
 import ShopNavigator from "./navigation/ShopNavigator";
 
 const rootReducer = combineReducers({
+  orders: ordersReducer,
   products: productsReducer,
   cart: cartReducer,
-  orders: ordersReducer
 })
 
 const store = createStore(rootReducer)

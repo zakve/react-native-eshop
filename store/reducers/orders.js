@@ -1,11 +1,11 @@
-import { ADD_ORDER } from "../actions/order"
+import { ADD_ORDER } from "../actions/orders"
 import Order from "../../models/order"
 
-const initialSteta = {
+const initialState = {
     orders: []
 }
 
-export default (state = initialSteta, action) => {
+export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_ORDER:
             const newOrder = new Order(
@@ -18,7 +18,6 @@ export default (state = initialSteta, action) => {
                 ...state,
                 orders: state.orders.concat(newOrder)
             }
-        default:
-            return state;
+        default: return state
     }
 }

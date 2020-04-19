@@ -4,7 +4,7 @@ import { ListItem, Icon, Text } from 'react-native-elements'
 
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart } from '../../store/actions/cart';
-import { addOrder } from "../../store/actions/order";
+import { addOrder } from "../../store/actions/orders";
 
 // Components
 import PriceSummary from "../../components/shop/PriceSummary";
@@ -30,7 +30,7 @@ const CartScreen = props => {
     })
 
     const orderHandler = param => {
-        addOrder(cartItems, cartTotalAmount)
+        dispatch(addOrder(cartItems, cartTotalAmount))
     }
 
     const removeHandler = pid => {
@@ -79,7 +79,7 @@ const CartScreen = props => {
                     title="Total amount"
                     price={cartTotalAmount}
                     buttonTitle="Order Now"
-                    orderHandler={orderHandler}
+                    orderHandler={() => { orderHandler() }}
                 />
             </SafeAreaView>
         </ScrollView>
