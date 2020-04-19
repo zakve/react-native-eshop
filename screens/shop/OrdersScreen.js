@@ -13,8 +13,8 @@ const OrdersScreen = props => {
         orders.map((l, i) => (
             <ListItem
                 key={i}
-                title={l.date.toString()}
-                rightTitle={`$${l.totalAmount}`}
+                title={l.readableDate}
+                rightTitle={`$${l.totalAmount.toFixed(2)}`}
                 bottomDivider
                 chevron
                 onPress={() => { }}
