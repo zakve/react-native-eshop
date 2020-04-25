@@ -80,7 +80,7 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
                             {
                                 itemsCount > 0 &&
                                 <Badge
-                                    status="success"
+                                    status="primary"
                                     value={itemsCount}
                                     containerStyle={{ position: 'absolute', top: -4, right: -4 }}
                                 />
