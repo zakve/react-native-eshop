@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { FlatList, StyleSheet, Text, Platform, View } from "react-native";
 import { Badge, Icon } from "react-native-elements";
+import Snackbar from 'react-native-snackbar';
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -41,7 +42,11 @@ const ProductsOverviewScreen = props => {
                             })
                         }}
                         onAddToCart={() => {
-                            dispatch(cartActions.addToCart(itemData.item))
+                            dispatch(cartActions.addToCart(itemData.item)),
+                                Snackbar.show({
+                                    text: 'Item added to Cart',
+                                    duration: Snackbar.LENGTH_SHORT,
+                                });
                         }}
                     />
             }
