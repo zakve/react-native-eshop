@@ -3,8 +3,7 @@ import { View } from "react-native";
 import { Text, ListItem } from "react-native-elements";
 import { useSelector } from "react-redux";
 
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import HeaderButton from "../../components/UI/HeaderButton";
+import { CustomHeaderButton, Item } from '../../components/UI/HeaderButton'
 
 const OrdersScreen = props => {
     const orders = useSelector(state => state.orders.orders);
@@ -27,7 +26,7 @@ OrdersScreen.navigationOptions = navData => {
     return {
         headerTitle: 'Your Orders',
         headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <CustomHeaderButton>
                 <Item
                     title="Menu"
                     iconName="menu"
@@ -35,7 +34,7 @@ OrdersScreen.navigationOptions = navData => {
                         navData.navigation.toggleDrawer()
                     }}
                 />
-            </HeaderButtons>
+            </CustomHeaderButton>
         )
     }
 
