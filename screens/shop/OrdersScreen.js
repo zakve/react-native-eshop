@@ -17,7 +17,7 @@ const OrdersScreen = props => {
                 rightTitle={`$${l.totalAmount.toFixed(2)}`}
                 bottomDivider
                 chevron
-                onPress={() => { }}
+                onPress={() => { props.navigation.navigate("OrderDetail") }}
             />
         ))
     )

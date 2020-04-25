@@ -10,6 +10,7 @@ import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
 import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 import CartScreen from "../screens/shop/CartScreen";
 import OrdersScreen from "../screens/shop/OrdersScreen";
+import OrderDetailScreen from '../screens/shop/OrderDetailScreen';
 
 // Constants
 import Colors from "../constants/Colors";
@@ -33,7 +34,8 @@ const ProductsNavigator = createStackNavigator({
 });
 
 const OrdersNavigator = createStackNavigator({
-    Orders: OrdersScreen
+    Orders: OrdersScreen,
+    OrderDetail: OrderDetailScreen
 }, {
     navigationOptions: {
         drawerIcon: drawerConfig => <Icon name="list" color={drawerConfig.tintColor} />
