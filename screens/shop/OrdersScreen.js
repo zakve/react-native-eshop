@@ -9,14 +9,14 @@ const OrdersScreen = props => {
     const orders = useSelector(state => state.orders.orders);
 
     return (
-        orders.map((l, i) => (
+        orders.map((order, i) => (
             <ListItem
                 key={i}
-                title={l.readableDate}
-                rightTitle={`$${l.totalAmount.toFixed(2)}`}
+                title={order.readableDate}
+                rightTitle={`$${order.totalAmount.toFixed(2)}`}
                 bottomDivider
                 chevron
-                onPress={() => { props.navigation.navigate("OrderDetail") }}
+                onPress={() => { props.navigation.navigate("OrderDetail", { order: order }) }}
             />
         ))
     )

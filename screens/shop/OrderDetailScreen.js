@@ -1,15 +1,36 @@
 import React from "react";
 import { View } from "react-native";
-import { Text, ListItem } from "react-native-elements";
-import { useSelector } from "react-redux";
+import { Text, Tile, ListItem } from "react-native-elements";
+
+// Constants
+import Colors from "../../constants/Colors";
 
 const OrderDetailScreen = props => {
-    const orders = useSelector(state => state.orders.orders);
+    const order = props.navigation.getParam('order');
 
     return (
-        <View>
-            <Text>Order detail</Text>
-        </View>
+        <>
+            <Tile
+                title={`${order.readableDate}\n$${order.totalAmount}`}
+                featured
+                icon={{ name: 'shopping-cart', size: 170, color: "white" }}
+                overlayContainerStyle={{ backgroundColor: Colors.primary }}
+                activeOpacity={0}
+            />
+            {
+                order.items.map((item, i) => (
+                    <ListItem
+                        key={i}
+                        title={item.productTitle}
+                        rightTitle={`$ ${item.sum.toFixed(2)}`}
+                        rightSubtitle={
+                            item.quantity.toString()
+                        }
+                        bottomDivider
+                    />
+                ))
+            }
+        </>
     )
 }
 
