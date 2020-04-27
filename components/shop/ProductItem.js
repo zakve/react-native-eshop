@@ -1,10 +1,6 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform } from "react-native";
-import { Button, Card } from "react-native-elements";
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
-// Contstants
-import Colors from "../../constants/Colors";
+import { Card } from "react-native-elements";
 
 const ProductItem = props => {
     let TouchableCmp = TouchableOpacity;
@@ -15,7 +11,7 @@ const ProductItem = props => {
 
     return (
         <View style={styles.product}>
-            <TouchableCmp onPress={props.onViewDetail} useForeground>
+            <TouchableCmp onPress={props.onSelect} useForeground>
                 <Card
                     featuredTitle={`$ ${props.price}`}
                     featuredSubtitle={props.title}
@@ -23,24 +19,7 @@ const ProductItem = props => {
                     imageStyle={styles.image}
                 >
                     <View style={styles.actions}>
-                        <Button
-                            title='View Detail'
-                            type="clear"
-                            onPress={props.onViewDetail}
-                        />
-                        <Button
-                            title='To Cart'
-                            icon={
-                                <Icon
-                                    name="shopping-cart"
-                                    size={20}
-                                    color="white"
-                                />}
-                            iconRight={true}
-                            buttonStyle={styles.button}
-                            titleStyle={styles.buttonTitle}
-                            onPress={props.onAddToCart}
-                        />
+                        {props.children}
                     </View>
                 </Card>
             </TouchableCmp>
@@ -60,10 +39,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: "center"
-    },
-    button: {
-        paddingHorizontal: 10,
-        backgroundColor: Colors.primary
     },
     buttonTitle: {
         paddingHorizontal: 15

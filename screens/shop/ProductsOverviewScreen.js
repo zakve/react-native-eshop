@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { FlatList, StyleSheet, Text, Platform, View } from "react-native";
-import { Badge, Icon } from "react-native-elements";
+import { Badge, Icon, Button } from "react-native-elements";
 import Snackbar from 'react-native-snackbar';
 
 // Redux
@@ -25,6 +25,13 @@ const ProductsOverviewScreen = props => {
         })
     }, [cart])
 
+    const selectItemHandler = (id, title) => {
+        props.navigation.navigate('ProductDetail', {
+            productId: id,
+            productTitle: title
+        })
+    }
+
     return (
         <FlatList
             data={products}
@@ -35,11 +42,8 @@ const ProductsOverviewScreen = props => {
                         imageUrl={itemData.item.imageUrl}
                         title={itemData.item.title}
                         price={itemData.item.price}
-                        onViewDetail={() => {
-                            props.navigation.navigate('ProductDetail', {
-                                productId: itemData.item.id,
-                                productTitle: itemData.item.title
-                            })
+                        onSelect={() => {
+                            selectItemHandler(itemData.item.id, itemData.item.title)
                         }}
                         onAddToCart={() => {
                             dispatch(cartActions.addToCart(itemData.item)),
@@ -48,7 +52,28 @@ const ProductsOverviewScreen = props => {
                                     duration: Snackbar.LENGTH_SHORT,
                                 });
                         }}
-                    />
+                    >
+                        <Button
+                            title='View Detail'
+                            type="clear"
+                            onPress={() => {
+                                selectItemHandler(itemData.item.id, itemData.item.title)
+                            }}
+                        />
+                        <Button
+                            title='To Cart'
+                            icon={
+                                <Icon
+                                    name="shopping-cart"
+                                    size={20}
+                                    color="white"
+                                />}
+                            iconRight={true}
+                            buttonStyle={styles.button}
+                            titleStyle={styles.buttonTitle}
+                            onPress={props.onAddToCart}
+                        />
+                    </ProductItem>
             }
         />
     )
@@ -102,7 +127,10 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
 }
 
 const styles = StyleSheet.create({
-
+    button: {
+        paddingHorizontal: 10,
+        backgroundColor: Colors.primary
+    },
 });
 
 export default ProductsOverviewScreen;
