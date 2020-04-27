@@ -11,6 +11,7 @@ import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 import CartScreen from "../screens/shop/CartScreen";
 import OrdersScreen from "../screens/shop/OrdersScreen";
 import OrderDetailScreen from '../screens/shop/OrderDetailScreen';
+import UserProductsScreen from "../screens/user/UserProductsScreen";
 
 // Constants
 import Colors from "../constants/Colors";
@@ -43,9 +44,19 @@ const OrdersNavigator = createStackNavigator({
     defaultNavigationOptions: defaultNavOptions
 });
 
+const AdminNavigator = createStackNavigator({
+    UserProducts: UserProductsScreen
+}, {
+    navigationOptions: {
+        drawerIcon: drawerConfig => <Icon name="edit" color={drawerConfig.tintColor} />
+    },
+    defaultNavigationOptions: defaultNavOptions
+});
+
 const ShopNavigator = createDrawerNavigator({
     Products: ProductsNavigator,
-    Orders: OrdersNavigator
+    Orders: OrdersNavigator,
+    Admin: AdminNavigator
 }, {
     contentOptions: {
         activeTintColor: Colors.primary
