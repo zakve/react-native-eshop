@@ -15,6 +15,10 @@ const UserProductsScreen = props => {
     const dispatch = useDispatch();
     const userProducts = useSelector(state => state.products.userProducts);
 
+    const editProductHandler = (id) => {
+        props.navigation.navigate('EditProduct', { productId: id })
+    }
+
     return (
         <FlatList
             data={userProducts}
@@ -26,6 +30,7 @@ const UserProductsScreen = props => {
                         title={itemData.item.title}
                         price={itemData.item.price}
                         onSelect={() => {
+                            editProductHandler(itemData.item.id)
                         }}
                     >
                         <Button
@@ -40,7 +45,9 @@ const UserProductsScreen = props => {
                             title='Edit '
                             type="clear"
                             iconRight={true}
-                            onPress={() => { }}
+                            onPress={() => {
+                                editProductHandler(itemData.item.id)
+                            }}
                         />
                     </ProductItem>
             }
