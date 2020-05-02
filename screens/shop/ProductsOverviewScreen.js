@@ -45,13 +45,6 @@ const ProductsOverviewScreen = props => {
                         onSelect={() => {
                             selectItemHandler(itemData.item.id, itemData.item.title)
                         }}
-                        onAddToCart={() => {
-                            dispatch(cartActions.addToCart(itemData.item)),
-                                Snackbar.show({
-                                    text: 'Item added to Cart',
-                                    duration: Snackbar.LENGTH_SHORT,
-                                });
-                        }}
                     >
                         <Button
                             title='View Detail'
@@ -71,7 +64,13 @@ const ProductsOverviewScreen = props => {
                             iconRight={true}
                             buttonStyle={styles.button}
                             titleStyle={styles.buttonTitle}
-                            onPress={props.onAddToCart}
+                            onPress={() => {
+                                dispatch(cartActions.addToCart(itemData.item)),
+                                    Snackbar.show({
+                                        text: 'Item added to Cart',
+                                        duration: Snackbar.LENGTH_SHORT,
+                                    });
+                            }}
                         />
                     </ProductItem>
             }
