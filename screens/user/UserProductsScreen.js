@@ -1,8 +1,9 @@
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { Button, Icon } from "react-native-elements";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { CustomHeaderButton, Item } from "../../components/UI/HeaderButton";
+import * as productsActions from "../../store/actions/products";
 
 // Components
 import ProductItem from "../../components/shop/ProductItem";
@@ -11,6 +12,7 @@ import ProductItem from "../../components/shop/ProductItem";
 import Colors from "../../constants/Colors";
 
 const UserProductsScreen = props => {
+    const dispatch = useDispatch();
     const userProducts = useSelector(state => state.products.userProducts);
 
     return (
@@ -25,30 +27,18 @@ const UserProductsScreen = props => {
                         price={itemData.item.price}
                         onSelect={() => {
                         }}
-                        onAddToCart={() => {
-                            dispatch(cartActions.addToCart(itemData.item)),
-                                Snackbar.show({
-                                    text: 'Item added to Cart',
-                                    duration: Snackbar.LENGTH_SHORT,
-                                });
-                        }}
                     >
                         <Button
                             title='Delete'
                             type="clear"
                             titleStyle={styles.buttonTitle}
                             onPress={() => {
+                                dispatch(productsActions.deleteProduct(itemData.item.id))
                             }}
                         />
                         <Button
                             title='Edit '
-                            buttonStyle={styles.button}
-                            icon={
-                                <Icon
-                                    name="edit"
-                                    size={20}
-                                    color="white"
-                                />}
+                            type="clear"
                             iconRight={true}
                             onPress={() => { }}
                         />
