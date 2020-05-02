@@ -57,7 +57,7 @@ const UserProductsScreen = props => {
 
 UserProductsScreen.navigationOptions = navData => {
     return {
-        headerTitle: "Admin products",
+        headerTitle: "Admin",
         headerLeft: () => (
             <CustomHeaderButton>
                 <Item
