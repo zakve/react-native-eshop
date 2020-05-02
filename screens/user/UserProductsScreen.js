@@ -69,6 +69,17 @@ UserProductsScreen.navigationOptions = navData => {
                 />
             </CustomHeaderButton>
         ),
+        headerRight: () => (
+            <CustomHeaderButton>
+                <Item
+                    title="Add"
+                    iconName="add"
+                    onPress={() => {
+                        navData.navigation.navigate('EditProduct')
+                    }}
+                />
+            </CustomHeaderButton>
+        ),
     }
 }
 
