@@ -57,7 +57,7 @@ const CartScreen = props => {
                             <ListItem
                                 key={i}
                                 title={item.productTitle}
-                                rightTitle={`$ ${item.sum.toFixed(2)}`}
+                                rightTitle={`$ ${Math.round(item.sum.toFixed(2) * 100) / 100}`}
                                 rightTitleStyle={styles.listPrice}
                                 rightSubtitle={
                                     item.quantity.toString()
