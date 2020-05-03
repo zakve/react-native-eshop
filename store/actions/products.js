@@ -25,8 +25,7 @@ export const updateProduct = (id, title, description, imageUrl, price) => {
         productData: {
             title,
             description,
-            imageUrl,
-            price
+            imageUrl
         }
     }
 }
