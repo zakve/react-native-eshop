@@ -2,9 +2,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { Text, Input } from "react-native-elements";
 import { CustomHeaderButton, Item } from "../../components/UI/HeaderButton";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import * as productsActions from "../../store/actions/products";
 
 const EditProductScreen = props => {
+    const dispatch = useDispatch();
     const prodId = props.navigation.getParam('productId');
     const editedProduct = useSelector(state => state.products.userProducts.find(prod => prod.id === prodId))
 
@@ -14,8 +16,12 @@ const EditProductScreen = props => {
     const [description, setDescription] = useState(editedProduct ? editedProduct.description : '');
 
     const submitHandler = useCallback(() => {
-        console.log('submit')
-    }, [])
+        if (editedProduct) {
+            dispatch(productsActions.updateProduct(prodId, title, description, imageUrl))
+        } else {
+            dispatch(productsActions.createProduct(title, description, imageUrl, +price))
+        }
+    }, [dispatch, prodId, title, description, imageUrl, price])
 
     useEffect(() => {
         props.navigation.setParams({ submit: submitHandler })
@@ -27,14 +33,14 @@ const EditProductScreen = props => {
                 <Input
                     label='Title'
                     value={title}
-                    onChange={text => setTitle(text)}
+                    onChangeText={text => setTitle(text)}
                     containerStyle={styles.inputContainer}
                     errorMessage=''
                 />
                 <Input
                     label='Image URL'
                     value={imageUrl}
-                    onChange={text => setImageUrl(text)}
+                    onChangeText={text => setImageUrl(text)}
                     containerStyle={styles.inputContainer}
                     errorMessage=''
                 />
@@ -43,7 +49,7 @@ const EditProductScreen = props => {
                     <Input
                         label='Price'
                         value={price}
-                        onChange={text => setPrice(text)}
+                        onChangeText={text => setPrice(text)}
                         containerStyle={styles.inputContainer}
                         errorMessage=''
                     />
@@ -52,7 +58,7 @@ const EditProductScreen = props => {
                 <Input
                     label='Description'
                     value={description}
-                    onChange={text => setDescription(text)}
+                    onChangeText={text => setDescription(text)}
                     containerStyle={styles.inputContainer}
                     errorMessage=''
                 />
