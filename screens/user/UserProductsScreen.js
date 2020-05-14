@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, Alert } from "react-native";
 import { Button, Icon } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 import { CustomHeaderButton, Item } from "../../components/UI/HeaderButton";
@@ -17,6 +17,17 @@ const UserProductsScreen = props => {
 
     const editProductHandler = (id) => {
         props.navigation.navigate('EditProduct', { productId: id })
+    }
+
+    const deleteHandler = (itemId) => {
+        Alert.alert('Are you sure?', 'Do you really want to delete this item?', [
+            { text: 'No', style: 'default' },
+            {
+                text: 'yes', style: 'destructive', onPress: () => {
+                    dispatch(productsActions.deleteProduct(itemId))
+                }
+            }
+        ])
     }
 
     return (
@@ -37,9 +48,7 @@ const UserProductsScreen = props => {
                             title='Delete'
                             type="clear"
                             titleStyle={styles.buttonTitle}
-                            onPress={() => {
-                                dispatch(productsActions.deleteProduct(itemData.item.id))
-                            }}
+                            onPress={deleteHandler.bind(this, itemData.item.id)}
                         />
                         <Button
                             title='Edit '
