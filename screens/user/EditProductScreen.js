@@ -36,6 +36,9 @@ const EditProductScreen = props => {
                     value={title}
                     onChangeText={text => setTitle(text)}
                     containerStyle={styles.inputContainer}
+                    keyboardType='default'
+                    autoCapitalize='sentences'
+                    autoCorrect
                     errorMessage=''
                 />
                 <Input
@@ -52,6 +55,7 @@ const EditProductScreen = props => {
                         value={price}
                         onChangeText={text => setPrice(text)}
                         containerStyle={styles.inputContainer}
+                        keyboardType='decimal-pad'
                         errorMessage=''
                     />
                 }
@@ -61,6 +65,8 @@ const EditProductScreen = props => {
                     value={description}
                     onChangeText={text => setDescription(text)}
                     containerStyle={styles.inputContainer}
+                    keyboardType='default'
+                    autoCapitalize='sentences'
                     errorMessage=''
                 />
             </View>
