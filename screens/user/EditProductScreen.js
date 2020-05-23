@@ -1,75 +1,122 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
-import { Text, Input } from "react-native-elements";
+import { View, StyleSheet, ScrollView, Alert } from "react-native";
+import { Text, Input, Button } from "react-native-elements";
 import { CustomHeaderButton, Item } from "../../components/UI/HeaderButton";
 import { useSelector, useDispatch } from "react-redux";
 import * as productsActions from "../../store/actions/products";
+import { Formik } from 'formik'
+import * as yup from 'yup';
 
 const EditProductScreen = props => {
     const dispatch = useDispatch();
     const prodId = props.navigation.getParam('productId');
     const editedProduct = useSelector(state => state.products.userProducts.find(prod => prod.id === prodId))
 
-    const [title, setTitle] = useState(editedProduct ? editedProduct.title : '');
-    const [imageUrl, setImageUrl] = useState(editedProduct ? editedProduct.imageUrl : '');
-    const [price, setPrice] = useState('');
-    const [description, setDescription] = useState(editedProduct ? editedProduct.description : '');
-
-    const submitHandler = useCallback(() => {
+    const submitHandler = (values) => {
+        /* if (!titleIsValid) {
+            Alert.alert('Wrong input!', 'Please chcekc the errors in the form.', [{ text: 'Okay' }])
+            return;
+        } */
         if (editedProduct) {
-            dispatch(productsActions.updateProduct(prodId, title, description, imageUrl))
+            dispatch(productsActions.updateProduct(prodId, values.title, values.description, values.imageUrl))
         } else {
-            dispatch(productsActions.createProduct(title, description, imageUrl, +price))
+            dispatch(productsActions.createProduct(values.title, values.description, values.imageUrl, values.price))
         }
         props.navigation.goBack();
-    }, [dispatch, prodId, title, description, imageUrl, price])
+    }
 
-    useEffect(() => {
-        props.navigation.setParams({ submit: submitHandler })
-    }, [submitHandler])
+    /* const titleChangeHandler = text => {
+        if (text.trim().length === 0) {
+            setTitleIsValid = false;
+        } else {
+            setTitleIsValid = true;
+        }
+        setTitle(text);
+    } */
 
     return (
         <ScrollView style={styles.background}>
-            <View style={styles.screen}>
-                <Input
-                    label='Title'
-                    value={title}
-                    onChangeText={text => setTitle(text)}
-                    containerStyle={styles.inputContainer}
-                    keyboardType='default'
-                    autoCapitalize='sentences'
-                    autoCorrect
-                    errorMessage=''
-                />
-                <Input
-                    label='Image URL'
-                    value={imageUrl}
-                    onChangeText={text => setImageUrl(text)}
-                    containerStyle={styles.inputContainer}
-                    errorMessage=''
-                />
-                {
-                    !editedProduct &&
-                    <Input
-                        label='Price'
-                        value={price}
-                        onChangeText={text => setPrice(text)}
-                        containerStyle={styles.inputContainer}
-                        keyboardType='decimal-pad'
-                        errorMessage=''
-                    />
-                }
+            <Formik
+                initialValues={{
+                    title: editedProduct ? editedProduct.title : '',
+                    imageUrl: editedProduct ? editedProduct.imageUrl : '',
+                    price: '',
+                    description: editedProduct ? editedProduct.description : ''
+                }}
+                onSubmit={values => submitHandler(values)}
+            /* validationSchema={yup.object().shape({
+                title: yup
+                    .string()
+                    .required('Please, provide your name!'),
+                imageUrl: yup
+                    .string()
+                    .email()
+                    .required(),
+                price: yup
+                    .string()
+                    .min(4)
+                    .max(10, 'Password should not excced 10 chars.')
+                    .required(),
+                description: yup
+                    .string()
+                    .min(4)
+                    .max(10, 'Password should not excced 10 chars.')
+                    .required(),
+            })} */
+            >
+                {({ values, handleChange, errors, handleBlur, setFieldTouched, touched, isValid, handleSubmit }) => {
+                    useEffect(() => {
+                        props.navigation.setParams({ submit: handleSubmit })
+                    }, [])
 
-                <Input
-                    label='Description'
-                    value={description}
-                    onChangeText={text => setDescription(text)}
-                    containerStyle={styles.inputContainer}
-                    keyboardType='default'
-                    autoCapitalize='sentences'
-                    errorMessage=''
-                />
-            </View>
+                    return (
+                        <View style={styles.screen}>
+                            <Input
+                                label='Title'
+                                value={values.title}
+                                onChangeText={handleChange('title')}
+                                onBlur={handleBlur('title')}
+                                containerStyle={styles.inputContainer}
+                                keyboardType='default'
+                                autoCapitalize='sentences'
+                                autoCorrect
+                                errorMessage={(touched.title && errors.title) ? '' : errors.title}
+                            />
+                            <Input
+                                label='Image URL'
+                                value={values.imageUrl}
+                                onChangeText={handleChange('imageUrl')}
+                                onBlur={handleBlur('imageUrl')}
+                                containerStyle={styles.inputContainer}
+                                errorMessage={(touched.imageUrl && errors.imageUrl) ? '' : errors.imageUrl}
+                            />
+                            {
+                                !editedProduct &&
+                                <Input
+                                    label='Price'
+                                    value={values.price}
+                                    onChangeText={handleChange('price')}
+                                    onBlur={handleBlur('price')}
+                                    containerStyle={styles.inputContainer}
+                                    keyboardType='decimal-pad'
+                                    errorMessage={(touched.price && errors.price) ? '' : errors.price}
+                                />
+                            }
+
+                            <Input
+                                label='Description'
+                                value={values.description}
+                                onChangeText={handleChange('description')}
+                                onBlur={handleBlur('description')}
+                                containerStyle={styles.inputContainer}
+                                keyboardType='default'
+                                autoCapitalize='sentences'
+                                errorMessage={(touched.description && errors.description) ? '' : errors.description}
+                            />
+                        </View>
+                    )
+                }}
+            </Formik>
         </ScrollView>
     )
 }
