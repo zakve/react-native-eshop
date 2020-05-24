@@ -27,7 +27,7 @@ const EditProductScreen = props => {
                 initialValues={{
                     title: editedProduct ? editedProduct.title : '',
                     imageUrl: editedProduct ? editedProduct.imageUrl : '',
-                    price: '',
+                    price: editedProduct ? editedProduct.price : '',
                     description: editedProduct ? editedProduct.description : ''
                 }}
                 onSubmit={values => submitHandler(values)}
