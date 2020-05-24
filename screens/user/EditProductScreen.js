@@ -13,10 +13,6 @@ const EditProductScreen = props => {
     const editedProduct = useSelector(state => state.products.userProducts.find(prod => prod.id === prodId))
 
     const submitHandler = (values) => {
-        /* if (!titleIsValid) {
-            Alert.alert('Wrong input!', 'Please chcekc the errors in the form.', [{ text: 'Okay' }])
-            return;
-        } */
         if (editedProduct) {
             dispatch(productsActions.updateProduct(prodId, values.title, values.description, values.imageUrl))
         } else {
@@ -24,15 +20,6 @@ const EditProductScreen = props => {
         }
         props.navigation.goBack();
     }
-
-    /* const titleChangeHandler = text => {
-        if (text.trim().length === 0) {
-            setTitleIsValid = false;
-        } else {
-            setTitleIsValid = true;
-        }
-        setTitle(text);
-    } */
 
     return (
         <ScrollView style={styles.background}>
@@ -44,30 +31,27 @@ const EditProductScreen = props => {
                     description: editedProduct ? editedProduct.description : ''
                 }}
                 onSubmit={values => submitHandler(values)}
-            /* validationSchema={yup.object().shape({
-                title: yup
-                    .string()
-                    .required('Please, provide your name!'),
-                imageUrl: yup
-                    .string()
-                    .email()
-                    .required(),
-                price: yup
-                    .string()
-                    .min(4)
-                    .max(10, 'Password should not excced 10 chars.')
-                    .required(),
-                description: yup
-                    .string()
-                    .min(4)
-                    .max(10, 'Password should not excced 10 chars.')
-                    .required(),
-            })} */
+                validationSchema={yup.object().shape({
+                    title: yup
+                        .string()
+                        .required('Please, provide title!'),
+                    imageUrl: yup
+                        .string()
+                        .required()
+                        .url(),
+                    price: yup
+                        .number()
+                        .required()
+                        .moreThan(0),
+                    description: yup
+                        .string()
+                        .required(),
+                })}
             >
-                {({ values, handleChange, errors, handleBlur, setFieldTouched, touched, isValid, handleSubmit }) => {
+                {({ values, handleChange, errors, handleBlur, setFieldTouched, touched, handleSubmit }) => {
                     useEffect(() => {
                         props.navigation.setParams({ submit: handleSubmit })
-                    }, [])
+                    }, [handleSubmit])
 
                     return (
                         <View style={styles.screen}>
@@ -80,7 +64,7 @@ const EditProductScreen = props => {
                                 keyboardType='default'
                                 autoCapitalize='sentences'
                                 autoCorrect
-                                errorMessage={(touched.title && errors.title) ? '' : errors.title}
+                                errorMessage={(touched.title && errors.title) ? errors.title : ''}
                             />
                             <Input
                                 label='Image URL'
@@ -88,7 +72,7 @@ const EditProductScreen = props => {
                                 onChangeText={handleChange('imageUrl')}
                                 onBlur={handleBlur('imageUrl')}
                                 containerStyle={styles.inputContainer}
-                                errorMessage={(touched.imageUrl && errors.imageUrl) ? '' : errors.imageUrl}
+                                errorMessage={(touched.imageUrl && errors.imageUrl) ? errors.imageUrl : ''}
                             />
                             {
                                 !editedProduct &&
@@ -99,7 +83,7 @@ const EditProductScreen = props => {
                                     onBlur={handleBlur('price')}
                                     containerStyle={styles.inputContainer}
                                     keyboardType='decimal-pad'
-                                    errorMessage={(touched.price && errors.price) ? '' : errors.price}
+                                    errorMessage={(touched.price && errors.price) ? errors.price : ''}
                                 />
                             }
 
@@ -111,7 +95,7 @@ const EditProductScreen = props => {
                                 containerStyle={styles.inputContainer}
                                 keyboardType='default'
                                 autoCapitalize='sentences'
-                                errorMessage={(touched.description && errors.description) ? '' : errors.description}
+                                errorMessage={(touched.description && errors.description) ? errors.description : ''}
                             />
                         </View>
                     )
