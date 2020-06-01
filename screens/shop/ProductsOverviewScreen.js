@@ -11,12 +11,14 @@ import * as productsActions from "../../store/actions/products";
 // Components
 import ProductItem from "../../components/shop/ProductItem";
 import { CustomHeaderButton, Item } from "../../components/UI/HeaderButton";
+import MessagePanel from "../../components/UI/MessagePanel";
 
 // Constants
 import Colors from "../../constants/Colors";
 
 const ProductsOverviewScreen = props => {
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
     const products = useSelector(state => state.products.availableProducts);
     const cart = useSelector(state => state.cart.items);
     const dispatch = useDispatch();
@@ -30,7 +32,11 @@ const ProductsOverviewScreen = props => {
     useEffect(() => {
         const loadProducts = (async () => {
             setIsLoading(true)
-            await dispatch(productsActions.fetchProducts())
+            try {
+                await dispatch(productsActions.fetchProducts())
+            } catch (err) {
+                setError(err.message)
+            }
             setIsLoading(false)
         })()
     }, [dispatch])
@@ -40,6 +46,10 @@ const ProductsOverviewScreen = props => {
             productId: id,
             productTitle: title
         })
+    }
+
+    if (error) {
+        return <MessagePanel type="error" text="An error occurred!" />
     }
 
     if (isLoading) {
