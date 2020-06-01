@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { FlatList, StyleSheet, Text, Platform, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { FlatList, StyleSheet, Text, Platform, View, ActivityIndicator } from "react-native";
 import { Badge, Icon, Button } from "react-native-elements";
 import Snackbar from 'react-native-snackbar';
 
@@ -16,6 +16,7 @@ import { CustomHeaderButton, Item } from "../../components/UI/HeaderButton";
 import Colors from "../../constants/Colors";
 
 const ProductsOverviewScreen = props => {
+    const [isLoading, setIsLoading] = useState(false);
     const products = useSelector(state => state.products.availableProducts);
     const cart = useSelector(state => state.cart.items);
     const dispatch = useDispatch();
@@ -27,7 +28,11 @@ const ProductsOverviewScreen = props => {
     }, [cart])
 
     useEffect(() => {
-        dispatch(productsActions.fetchProducts())
+        const loadProducts = (async () => {
+            setIsLoading(true)
+            await dispatch(productsActions.fetchProducts())
+            setIsLoading(false)
+        })()
     }, [dispatch])
 
     const selectItemHandler = (id, title) => {
@@ -35,6 +40,12 @@ const ProductsOverviewScreen = props => {
             productId: id,
             productTitle: title
         })
+    }
+
+    if (isLoading) {
+        return <View style={styles.centered}>
+            <ActivityIndicator size='large' color={Colors.primary} />
+        </View>
     }
 
     return (
@@ -131,6 +142,11 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
 }
 
 const styles = StyleSheet.create({
+    centered: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
     button: {
         paddingHorizontal: 10,
         backgroundColor: Colors.primary
