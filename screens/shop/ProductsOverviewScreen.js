@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { FlatList, StyleSheet, Text, Platform, View, ActivityIndicator } from "react-native";
 import { Badge, Icon, Button } from "react-native-elements";
 import Snackbar from 'react-native-snackbar';
@@ -23,6 +23,17 @@ const ProductsOverviewScreen = props => {
     const cart = useSelector(state => state.cart.items);
     const dispatch = useDispatch();
 
+    const loadProducts = useCallback(async () => {
+        setError(null)
+        setIsLoading(true)
+        try {
+            await dispatch(productsActions.fetchProducts())
+        } catch (err) {
+            setError(err.message)
+        }
+        setIsLoading(false)
+    }, [dispatch, setIsLoading, setError])
+
     useEffect(() => {
         props.navigation.setParams({
             itemsCount: Object.keys(cart).length
@@ -30,16 +41,8 @@ const ProductsOverviewScreen = props => {
     }, [cart])
 
     useEffect(() => {
-        const loadProducts = (async () => {
-            setIsLoading(true)
-            try {
-                await dispatch(productsActions.fetchProducts())
-            } catch (err) {
-                setError(err.message)
-            }
-            setIsLoading(false)
-        })()
-    }, [dispatch])
+        loadProducts()
+    }, [dispatch, loadProducts])
 
     const selectItemHandler = (id, title) => {
         props.navigation.navigate('ProductDetail', {
@@ -49,7 +52,14 @@ const ProductsOverviewScreen = props => {
     }
 
     if (error) {
-        return <MessagePanel type="error" text="An error occurred!" />
+        return <View style={styles.centered}>
+            <Text>An error ocured!</Text>
+            <Button
+                title='Try again'
+                onPress={() => loadProducts()}
+                buttonStyle={{ backgroundColor: Colors.primary }}
+            />
+        </View>
     }
 
     if (isLoading) {
