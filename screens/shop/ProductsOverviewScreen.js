@@ -6,6 +6,7 @@ import Snackbar from 'react-native-snackbar';
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import * as cartActions from '../../store/actions/cart'
+import * as productsActions from "../../store/actions/products";
 
 // Components
 import ProductItem from "../../components/shop/ProductItem";
@@ -24,6 +25,10 @@ const ProductsOverviewScreen = props => {
             itemsCount: Object.keys(cart).length
         })
     }, [cart])
+
+    useEffect(() => {
+        dispatch(productsActions.fetchProducts())
+    }, [dispatch])
 
     const selectItemHandler = (id, title) => {
         props.navigation.navigate('ProductDetail', {
