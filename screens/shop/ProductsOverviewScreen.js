@@ -48,6 +48,16 @@ const ProductsOverviewScreen = props => {
         </View>
     }
 
+    if (!isLoading && products.length === 0) {
+        return <View style={styles.centered}>
+            <Icon
+                name='landscape'
+                size={70}
+            />
+            <Text>No products found. Maybe start adding some!</Text>
+        </View>
+    }
+
     return (
         <FlatList
             data={products}
