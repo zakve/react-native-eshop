@@ -1,12 +1,30 @@
-import React from "react";
-import { View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
 import { Text, ListItem } from "react-native-elements";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import * as ordersActions from "../../store/actions/orders";
 
 import { CustomHeaderButton, Item } from '../../components/UI/HeaderButton'
 
+// Constants
+import Colors from "../../constants/Colors";
+
 const OrdersScreen = props => {
+    const dispatch = useDispatch();
     const orders = useSelector(state => state.orders.orders);
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        setIsLoading(true);
+        dispatch(ordersActions.fetchOrders()).then(() => setIsLoading(false))
+    }, [dispatch])
+
+    if (isLoading) {
+        return <View style={styles.centered}>
+            <ActivityIndicator size='large' color={Colors.primary} />
+        </View>
+    }
 
     return (
         orders.map((order, i) => (
@@ -21,6 +39,14 @@ const OrdersScreen = props => {
         ))
     )
 }
+
+const styles = StyleSheet.create({
+    centered: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    }
+});
 
 OrdersScreen.navigationOptions = navData => {
     return {
