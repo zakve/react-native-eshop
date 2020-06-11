@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet, Button, ScrollView, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Button, ScrollView, SafeAreaView, ActivityIndicator } from 'react-native';
 import { ListItem, Icon, Text } from 'react-native-elements'
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -29,8 +29,13 @@ const CartScreen = props => {
         return transformedCartItems.sort((a, b) => a.productId > b.productId ? 1 : -1);
     })
 
-    const orderHandler = param => {
-        dispatch(addOrder(cartItems, cartTotalAmount))
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
+
+    const orderHandler = async (param) => {
+        setIsLoading(true);
+        await dispatch(addOrder(cartItems, cartTotalAmount))
+        setIsLoading(false)
     }
 
     const removeHandler = pid => {
@@ -79,6 +84,7 @@ const CartScreen = props => {
                     title="Total amount"
                     price={cartTotalAmount}
                     buttonTitle="Order Now"
+                    buttonState={isLoading}
                     orderHandler={() => { orderHandler() }}
                 />
             </SafeAreaView>
