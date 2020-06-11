@@ -25,13 +25,11 @@ const ProductsOverviewScreen = props => {
 
     const loadProducts = useCallback(async () => {
         setError(null)
-        setIsLoading(true)
         try {
             await dispatch(productsActions.fetchProducts())
         } catch (err) {
             setError(err.message)
         }
-        setIsLoading(false)
     }, [dispatch, setIsLoading, setError])
 
     useEffect(() => {
@@ -41,7 +39,8 @@ const ProductsOverviewScreen = props => {
     }, [cart])
 
     useEffect(() => {
-        loadProducts()
+        setIsLoading(true);
+        loadProducts().then(() => setIsLoading(false));
     }, [dispatch, loadProducts]);
 
     useEffect(() => {
@@ -88,6 +87,8 @@ const ProductsOverviewScreen = props => {
 
     return (
         <FlatList
+            onRefresh={loadProducts}
+            refreshing={isLoading}
             data={products}
             keyExtractor={item => item.id}
             renderItem={
