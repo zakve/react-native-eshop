@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, ScrollView, KeyboardAvoidingView, ActivityIndicator, Alert } from "react-native";
 import { Input } from "react-native-elements";
 import { CustomHeaderButton, Item } from "../../components/UI/HeaderButton";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,18 +7,43 @@ import * as productsActions from "../../store/actions/products";
 import { Formik } from 'formik'
 import * as yup from 'yup';
 
+// Constants
+import Colors from "../../constants/Colors";
+
 const EditProductScreen = props => {
     const dispatch = useDispatch();
     const prodId = props.navigation.getParam('productId');
     const editedProduct = useSelector(state => state.products.userProducts.find(prod => prod.id === prodId))
 
-    const submitHandler = (values) => {
-        if (editedProduct) {
-            dispatch(productsActions.updateProduct(prodId, values.title, values.description, values.imageUrl))
-        } else {
-            dispatch(productsActions.createProduct(values.title, values.description, values.imageUrl, values.price))
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
+
+    useEffect(() => {
+        if (error) {
+            Alert.alert('An error occurred!', error, [{ text: 'Okay' }])
         }
-        props.navigation.goBack();
+    }, [error])
+
+    const submitHandler = async (values) => {
+        setError(null);
+        setIsLoading(true);
+        try {
+            if (editedProduct) {
+                await dispatch(productsActions.updateProduct(prodId, values.title, values.description, values.imageUrl))
+            } else {
+                await dispatch(productsActions.createProduct(values.title, values.description, values.imageUrl, values.price))
+            }
+            props.navigation.goBack();
+        } catch (error) {
+            setError(error.message)
+        }
+        setIsLoading(false)
+    }
+
+    if (isLoading) {
+        return <View style={styles.centered}>
+            <ActivityIndicator size='large' color={Colors.primary} />
+        </View>
     }
 
     return (
@@ -137,6 +162,11 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         paddingBottom: 15
+    },
+    centered: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
     }
 })
 
