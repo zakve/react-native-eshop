@@ -70,7 +70,15 @@ const AuthNavigator = createStackNavigator({
             headerShown: false,
         }
     },
-    Auth: AuthScreen
+    Auth: {
+        screen: AuthScreen,
+        navigationOptions: {
+            title: '',
+            headerTransparent: {
+                backgroundColor: 'transparent'
+            },
+        }
+    }
 })
 
 const MainNavigator = createSwitchNavigator({
