@@ -17,6 +17,7 @@ import AuthScreen from '../screens/user/AuthScreen';
 
 // Constants
 import Colors from "../constants/Colors";
+import WelcomeScreen from '../screens/user/WelcomeScreen';
 
 const defaultNavOptions = {
     headerStyle: {
@@ -60,13 +61,15 @@ const ShopNavigator = createDrawerNavigator({
     Products: ProductsNavigator,
     Orders: OrdersNavigator,
     Admin: AdminNavigator
-}, {
-    contentOptions: {
-        activeTintColor: Colors.primary
-    }
 })
 
 const AuthNavigator = createStackNavigator({
+    Welcome: {
+        screen: WelcomeScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
     Auth: AuthScreen
 })
 
