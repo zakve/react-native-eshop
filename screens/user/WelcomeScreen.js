@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         paddingVertical: windowHeight / 10,
+        paddingHorizontal: windowWidth / 20
     },
     title: {
         color: Colors.primary,
