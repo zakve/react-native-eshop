@@ -49,12 +49,11 @@ const WelcomeScreen = props => {
 const styles = StyleSheet.create({
     bg: {
         flex: 1,
-        padding: 20
     },
     screen: {
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: windowHeight / 10
+        paddingVertical: windowHeight / 10,
     },
     title: {
         color: Colors.primary,
