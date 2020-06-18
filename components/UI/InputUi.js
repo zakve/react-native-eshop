@@ -19,9 +19,8 @@ const MessagePanel = props => {
             placeholder={props.placeholder}
             keyboardType={props.keyboardType}
             autoCapitalize='none'
-            //errorMessage={userErr}
-            //value={}
-            onChangeText={val => { }}
+            value={props.value}
+            onChangeText={val => { props.onChangeText(val) }}
             leftIcon={props.leftIcon}
             containerStyle={styles.container}
             inputContainerStyle={styles.inputContainer}

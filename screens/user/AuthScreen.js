@@ -1,6 +1,8 @@
 import React from 'react';
 import { ScrollView, SafeAreaView, View, KeyboardAvoidingView, StyleSheet, Dimensions } from "react-native";
 import { Text, Input, Button, Icon } from "react-native-elements";
+import { Formik } from 'formik'
+import * as yup from 'yup';
 
 // Components
 import InputUi from "../../components/UI/InputUi";
@@ -22,58 +24,70 @@ const AuthScreen = props => {
                         <View style={styles.screen}>
                             <Text style={styles.title}>Login</Text>
                             <Text style={styles.subtitle}>Enter your email and password to get access to your account.</Text>
-                            <View style={styles.inputsContainer}>
-                                <InputUi
-                                    id='email'
-                                    placeholder='E-mail'
-                                    keyboardType='email-address'
-                                    required
-                                    email
-                                    autoCapitalize='none'
-                                    //errorMessage={userErr}
-                                    //value={}
-                                    onChangeText={val => { }}
-                                    leftIcon={{ name: 'mail-outline', size: 32, color: 'darkgray' }}
-                                />
-                                <InputUi
-                                    id='password'
-                                    placeholder='Password'
-                                    keyboardType='default'
-                                    secureTextEntry
-                                    required
-                                    minLength={5}
-                                    autoCapitalize='none'
-                                    //errorMessage={passwordErr}
-                                    //value={}
-                                    onChangeText={val => { }}
-                                    containerStyle={styles.inputContainer}
-                                    leftIcon={{ name: 'lock-outline', size: 32, color: 'darkgray' }}
-                                />
-                                <Text
-                                    style={{ textAlign: "right", marginTop: 10, color: Colors.inactive }}
-                                    onPress={() => { }}
-                                >
-                                    Forget Password?
-                                </Text>
-                            </View>
-                            <View style={styles.buttonsContainer}>
-                                <Button
-                                    title='Login'
-                                    containerStyle={styles.buttonContainer}
-                                    buttonStyle={styles.mainButton}
-                                    onPress={() => { }}
-                                //loading={loginLoading}
-                                />
-                                <Button
-                                    title='Create Account'
-                                    type="outline"
-                                    raised
-                                    containerStyle={styles.buttonContainer}
-                                    buttonStyle={styles.secondaryButton}
-                                    titleStyle={styles.secondaryButtonTitle}
-                                    onPress={() => { }}
-                                />
-                            </View>
+                            <Formik
+                                initialValues={{
+                                    email: '',
+                                    password: ''
+                                }}
+                                onSubmit={values => console.log(values)}
+                            >
+                                {({ values, handleChange, errors, handleBlur, setFieldTouched, touched, handleSubmit }) => (
+                                    <>
+                                        <View style={styles.inputsContainer}>
+                                            <InputUi
+                                                id='email'
+                                                placeholder='E-mail'
+                                                keyboardType='email-address'
+                                                required
+                                                email
+                                                autoCapitalize='none'
+                                                onChangeText={handleChange('email')}
+                                                onBlur={handleBlur('email')}
+                                                value={values.email}
+                                                errorMessage={(touched.email && errors.email) ? errors.email : ''}
+                                                leftIcon={{ name: 'mail-outline', size: 32, color: 'darkgray' }}
+                                            />
+                                            <InputUi
+                                                id='password'
+                                                placeholder='Password'
+                                                keyboardType='default'
+                                                secureTextEntry
+                                                autoCapitalize='none'
+                                                onChangeText={handleChange('password')}
+                                                onBlur={handleBlur('password')}
+                                                value={values.password}
+                                                errorMessage={(touched.password && errors.password) ? errors.password : ''}
+                                                containerStyle={styles.inputContainer}
+                                                leftIcon={{ name: 'lock-outline', size: 32, color: 'darkgray' }}
+                                            />
+                                            <Text
+                                                style={{ textAlign: "right", marginTop: 10, color: Colors.inactive }}
+                                                onPress={() => { }}
+                                            >
+                                                Forget Password?
+                                            </Text>
+                                        </View>
+                                        <View style={styles.buttonsContainer}>
+                                            <Button
+                                                title='Login'
+                                                containerStyle={styles.buttonContainer}
+                                                buttonStyle={styles.mainButton}
+                                                onPress={handleSubmit}
+                                            //loading={loginLoading}
+                                            />
+                                            <Button
+                                                title='Create Account'
+                                                type="outline"
+                                                raised
+                                                containerStyle={styles.buttonContainer}
+                                                buttonStyle={styles.secondaryButton}
+                                                titleStyle={styles.secondaryButtonTitle}
+                                                onPress={() => { }}
+                                            />
+                                        </View>
+                                    </>
+                                )}
+                            </Formik>
                         </View>
                     </KeyboardAvoidingView>
                 </SafeAreaView>
