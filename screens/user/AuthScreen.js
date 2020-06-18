@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, SafeAreaView, View, KeyboardAvoidingView, StyleSheet, Dimensions } from "react-native";
 import { Text, Input, Button, Icon } from "react-native-elements";
 import { Formik } from 'formik'
@@ -13,6 +13,9 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const AuthScreen = props => {
+    const [blurLogin, setBlurLogin] = useState(false);
+    const [blurPassword, setBlurPassword] = useState(false);
+
     return (
         <View style={styles.bg}>
             <ScrollView>
@@ -40,9 +43,12 @@ const AuthScreen = props => {
                                                 keyboardType='email-address'
                                                 required
                                                 email
+                                                autoFocus
                                                 autoCapitalize='none'
                                                 onChangeText={handleChange('email')}
-                                                onBlur={handleBlur('email')}
+                                                onBlur={() => setBlurLogin(!blurLogin)}
+                                                onFocus={() => setBlurLogin(!blurLogin)}
+                                                blur={blurLogin}
                                                 value={values.email}
                                                 errorMessage={(touched.email && errors.email) ? errors.email : ''}
                                                 leftIcon={{ name: 'mail-outline', size: 32, color: 'darkgray' }}
@@ -54,7 +60,9 @@ const AuthScreen = props => {
                                                 secureTextEntry
                                                 autoCapitalize='none'
                                                 onChangeText={handleChange('password')}
-                                                onBlur={handleBlur('password')}
+                                                onBlur={() => setBlurPassword(!blurPassword)}
+                                                onFocus={() => setBlurPassword(!blurPassword)}
+                                                blur={blurPassword}
                                                 value={values.password}
                                                 errorMessage={(touched.password && errors.password) ? errors.password : ''}
                                                 containerStyle={styles.inputContainer}

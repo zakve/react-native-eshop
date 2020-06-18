@@ -21,8 +21,8 @@ const MessagePanel = props => {
             autoCapitalize='none'
             value={props.value}
             onChangeText={val => { props.onChangeText(val) }}
-            leftIcon={props.leftIcon}
-            containerStyle={styles.container}
+            leftIcon={{ name: props.leftIcon.name, color: props.blur ? Colors.primary : Colors.inactive }}
+            containerStyle={[styles.container, props.blur && styles.containerBlur]}
             inputContainerStyle={styles.inputContainer}
             leftIconContainerStyle={styles.leftIconContainerStyle}
         />
@@ -34,7 +34,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10,
         marginVertical: 5,
-        paddingVertical: 5
+        paddingVertical: 5,
+        borderBottomWidth: 1,
+        borderColor: Colors.inactive
+    },
+    containerBlur: {
+        borderColor: Colors.primary
     },
     inputContainer: {
         borderBottomWidth: 0,
