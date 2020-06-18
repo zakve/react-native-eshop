@@ -33,6 +33,15 @@ const AuthScreen = props => {
                                     password: ''
                                 }}
                                 onSubmit={values => console.log(values)}
+                                validationSchema={yup.object().shape({
+                                    email: yup
+                                        .string()
+                                        .required()
+                                        .email(),
+                                    password: yup
+                                        .string()
+                                        .required(),
+                                })}
                             >
                                 {({ values, handleChange, errors, handleBlur, setFieldTouched, touched, handleSubmit }) => (
                                     <>
