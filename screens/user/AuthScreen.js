@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { ScrollView, SafeAreaView, View, KeyboardAvoidingView, StyleSheet, Dimensions } from "react-native";
 import { Text, Input, Button, Icon } from "react-native-elements";
+import { useDispatch } from 'react-redux'
 import { Formik } from 'formik'
 import * as yup from 'yup';
+
+// Actions
+import * as authActions from "../../store/actions/auth";
 
 // Components
 import InputUi from "../../components/UI/InputUi";
@@ -13,8 +17,21 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const AuthScreen = props => {
+    const dispatch = useDispatch();
+
+    const [isSignup, setIsSignup] = useState(props.navigation.getParam('isSignup'));
+
     const [blurLogin, setBlurLogin] = useState(false);
     const [blurPassword, setBlurPassword] = useState(false);
+    const [blurPasswordConfirmation, setBlurPasswordConfirmation] = useState(false);
+
+    const submitHandler = (values) => {
+        if (isSignup) {
+            dispatch(authActions.signup(values.email, values.password))
+        } else {
+            dispatch(authActions.login(values.email, values.password))
+        }
+    }
 
     return (
         <View style={styles.bg}>
@@ -25,14 +42,18 @@ const AuthScreen = props => {
                         keyboardVerticalOffset={20}
                     >
                         <View style={styles.screen}>
-                            <Text style={styles.title}>Login</Text>
-                            <Text style={styles.subtitle}>Enter your email and password to get access to your account.</Text>
+                            <Text style={styles.title}>{isSignup ? "Create Account" : "Login"}</Text>
+                            <Text style={styles.subtitle}>
+                                {isSignup ? "Start your awesome shopping yourney with us!" : "Enter your email and password to get access to your account."}
+
+                            </Text>
                             <Formik
                                 initialValues={{
                                     email: '',
-                                    password: ''
+                                    password: '',
+                                    passwordConfirmation: '',
                                 }}
-                                onSubmit={values => console.log(values)}
+                                onSubmit={values => submitHandler(values)}
                                 validationSchema={yup.object().shape({
                                     email: yup
                                         .string()
@@ -40,7 +61,11 @@ const AuthScreen = props => {
                                         .email(),
                                     password: yup
                                         .string()
-                                        .required(),
+                                        .required()
+                                        .min(6),
+                                    passwordConfirmation: yup
+                                        .string()
+                                        .oneOf([yup.ref('password'), null], 'Passwords must match')
                                 })}
                             >
                                 {({ values, handleChange, errors, handleBlur, setFieldTouched, touched, handleSubmit }) => (
@@ -77,29 +102,50 @@ const AuthScreen = props => {
                                                 containerStyle={styles.inputContainer}
                                                 leftIcon={{ name: 'lock-outline', size: 32, color: 'darkgray' }}
                                             />
-                                            <Text
-                                                style={{ textAlign: "right", marginTop: 10, color: Colors.inactive }}
-                                                onPress={() => { }}
-                                            >
-                                                Forget Password?
+                                            {
+                                                isSignup &&
+                                                <InputUi
+                                                    id='passwordConfirmation'
+                                                    placeholder='Password again'
+                                                    keyboardType='default'
+                                                    secureTextEntry
+                                                    autoCapitalize='none'
+                                                    onChangeText={handleChange('passwordConfirmation')}
+                                                    onBlur={() => setBlurPasswordConfirmation(!blurPasswordConfirmation)}
+                                                    onFocus={() => setBlurPasswordConfirmation(!blurPasswordConfirmation)}
+                                                    blur={blurPasswordConfirmation}
+                                                    value={values.passwordConfirmation}
+                                                    errorMessage={(touched.passwordConfirmation && errors.passwordConfirmation) ? errors.passwordConfirmation : ''}
+                                                    containerStyle={styles.inputContainer}
+                                                    leftIcon={{ name: 'lock-outline', size: 32, color: 'darkgray' }}
+                                                />
+                                            }
+                                            {
+                                                !isSignup &&
+                                                <Text
+                                                    style={{ textAlign: "right", marginTop: 10, color: Colors.inactive }}
+                                                    onPress={() => { }}
+                                                >
+                                                    Forget Password?
                                             </Text>
+                                            }
                                         </View>
                                         <View style={styles.buttonsContainer}>
                                             <Button
-                                                title='Login'
+                                                title={isSignup ? 'Create Account' : 'Login'}
                                                 containerStyle={styles.buttonContainer}
                                                 buttonStyle={styles.mainButton}
                                                 onPress={handleSubmit}
                                             //loading={loginLoading}
                                             />
                                             <Button
-                                                title='Create Account'
+                                                title={isSignup ? 'Go to Login' : 'Create Account'}
                                                 type="outline"
                                                 raised
                                                 containerStyle={styles.buttonContainer}
                                                 buttonStyle={styles.secondaryButton}
                                                 titleStyle={styles.secondaryButtonTitle}
-                                                onPress={() => { }}
+                                                onPress={() => setIsSignup(!isSignup)}
                                             />
                                         </View>
                                     </>

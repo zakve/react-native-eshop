@@ -36,7 +36,7 @@ const WelcomeScreen = props => {
                                 containerStyle={styles.buttonContainer}
                                 buttonStyle={styles.secondaryButton}
                                 titleStyle={styles.secondaryButtonTitle}
-                                onPress={() => { }}
+                                onPress={() => { props.navigation.navigate('Auth', { isSignup: true }) }}
                             />
                         </View>
                     </View>
