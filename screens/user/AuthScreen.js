@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ScrollView, SafeAreaView, View, KeyboardAvoidingView, StyleSheet, Dimensions } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { ScrollView, SafeAreaView, View, KeyboardAvoidingView, StyleSheet, Dimensions, Alert } from "react-native";
 import { Text, Input, Button, Icon } from "react-native-elements";
 import { useDispatch } from 'react-redux'
 import { Formik } from 'formik'
@@ -21,16 +21,34 @@ const AuthScreen = props => {
 
     const [isSignup, setIsSignup] = useState(props.navigation.getParam('isSignup'));
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState()
+
     const [blurLogin, setBlurLogin] = useState(false);
     const [blurPassword, setBlurPassword] = useState(false);
     const [blurPasswordConfirmation, setBlurPasswordConfirmation] = useState(false);
 
-    const submitHandler = (values) => {
-        if (isSignup) {
-            dispatch(authActions.signup(values.email, values.password))
-        } else {
-            dispatch(authActions.login(values.email, values.password))
+    useEffect(() => {
+        if (error) {
+            Alert.alert('An Error Occurrred!', error, [{ text: 'Okay' }])
         }
+    }, [error])
+
+    const submitHandler = async (values) => {
+        let action;
+        if (isSignup) {
+            action = authActions.signup(values.email, values.password)
+        } else {
+            action = authActions.login(values.email, values.password)
+        }
+        setError(null)
+        setIsLoading(true);
+        try {
+            await dispatch(action)
+        } catch (error) {
+            setError(error.message)
+        }
+        setIsLoading(false)
     }
 
     return (
@@ -63,9 +81,12 @@ const AuthScreen = props => {
                                         .string()
                                         .required()
                                         .min(6),
-                                    passwordConfirmation: yup
-                                        .string()
-                                        .oneOf([yup.ref('password'), null], 'Passwords must match')
+                                    passwordConfirmation:
+                                        isSignup &&
+                                        yup
+                                            .string()
+                                            .oneOf([yup.ref('password'), null], 'Passwords must match')
+                                            .required()
                                 })}
                             >
                                 {({ values, handleChange, errors, handleBlur, setFieldTouched, touched, handleSubmit }) => (
@@ -136,7 +157,8 @@ const AuthScreen = props => {
                                                 containerStyle={styles.buttonContainer}
                                                 buttonStyle={styles.mainButton}
                                                 onPress={handleSubmit}
-                                            //loading={loginLoading}
+                                                loading={isLoading}
+                                                disabled={isLoading}
                                             />
                                             <Button
                                                 title={isSignup ? 'Go to Login' : 'Create Account'}
