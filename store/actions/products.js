@@ -37,9 +37,10 @@ export const fetchProducts = () => {
 }
 
 export const deleteProduct = productId => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
         const response = await fetch(
-            `https://react-native-eshop.firebaseio.com/products/${productId}.json`,
+            `https://react-native-eshop.firebaseio.com/products/${productId}.json?auth=${token}`,
             {
                 method: 'DELETE'
             })
@@ -53,9 +54,9 @@ export const deleteProduct = productId => {
 }
 
 export const createProduct = (title, description, imageUrl, price) => {
-    return async dispatch => {
-        // async code here
-        const response = await fetch('https://react-native-eshop.firebaseio.com/products.json', {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const response = await fetch(`https://react-native-eshop.firebaseio.com/products.json?auth=${token}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -84,9 +85,10 @@ export const createProduct = (title, description, imageUrl, price) => {
 }
 
 export const updateProduct = (id, title, description, imageUrl) => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
         const response = await fetch(
-            `https://react-native-eshop.firebaseio.com/products/${id}.json`,
+            `https://react-native-eshop.firebaseio.com/products/${id}.json?auth=${token}`,
             {
                 method: 'PATCH',
                 headers: {
