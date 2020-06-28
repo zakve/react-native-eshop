@@ -1,6 +1,6 @@
 import React from "react";
-import { FlatList, StyleSheet, Alert } from "react-native";
-import { Button, Icon } from "react-native-elements";
+import { FlatList, StyleSheet, Alert, View } from "react-native";
+import { Button, Icon, Text } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 import { CustomHeaderButton, Item } from "../../components/UI/HeaderButton";
 import * as productsActions from "../../store/actions/products";
@@ -28,6 +28,17 @@ const UserProductsScreen = props => {
                 }
             }
         ])
+    }
+
+    if (userProducts.length === 0) {
+        return <View style={styles.emptyContainer}>
+            <Text h4 style={styles.emptyText}>No products</Text>
+            <Icon
+                name="landscape"
+                size={70}
+                color="grey"
+            />
+        </View>
     }
 
     return (
@@ -99,6 +110,17 @@ const styles = StyleSheet.create({
     },
     buttonTitle: {
         color: "red"
+    },
+    emptyContainer: {
+        flex: 1,
+        paddingHorizontal: 20,
+        paddingVertical: 50,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    emptyText: {
+        color: "grey",
+        marginBottom: 20
     }
 });
 
