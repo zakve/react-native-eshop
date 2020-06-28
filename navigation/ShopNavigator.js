@@ -14,6 +14,7 @@ import OrderDetailScreen from '../screens/shop/OrderDetailScreen';
 import UserProductsScreen from "../screens/user/UserProductsScreen";
 import EditProductScreen from "../screens/user/EditProductScreen";
 import AuthScreen from '../screens/user/AuthScreen';
+import StartupScreen from "../screens/StartupScreen";
 
 // Constants
 import Colors from "../constants/Colors";
@@ -82,6 +83,7 @@ const AuthNavigator = createStackNavigator({
 })
 
 const MainNavigator = createSwitchNavigator({
+    Startup: StartupScreen,
     Auth: AuthNavigator,
     Shop: ShopNavigator
 })
