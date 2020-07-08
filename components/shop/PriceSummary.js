@@ -18,7 +18,8 @@ const PriceSummary = props => {
                     onPress={() => {
                         props.orderHandler()
                     }}
-                    disabled={props.price === 0}
+                    disabled={props.price === 0 || props.buttonState}
+                    loading={props.buttonState}
                     buttonStyle={styles.button}
                 />
             </View>
