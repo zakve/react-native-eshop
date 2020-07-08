@@ -36,3 +36,6 @@ npm i
 npx react-native run-ios
 npx react-native run-android
 ```
+
+### Firebase Database
+If you want to use Firebase, you have to add `API_KEY` constant into `.env` file which is secret and for that reason is in `.gitignore`.
