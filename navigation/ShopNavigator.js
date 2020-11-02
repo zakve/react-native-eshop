@@ -12,10 +12,10 @@ import * as authActions from '../store/actions/auth'
 import ProductsOverviewScreen, { screenOptions as productsOverviewScreenOptions } from "../screens/shop/ProductsOverviewScreen";
 import ProductDetailScreen, { screenOptions as productDetailScreenOptions } from "../screens/shop/ProductDetailScreen";
 import CartScreen, { screenOptions as cartScreenOptions } from "../screens/shop/CartScreen";
-import OrdersScreen from "../screens/shop/OrdersScreen";
+import OrdersScreen, { screenOptions as ordersScreenOptions } from "../screens/shop/OrdersScreen";
 import OrderDetailScreen from '../screens/shop/OrderDetailScreen';
-import UserProductsScreen from "../screens/user/UserProductsScreen";
-import EditProductScreen from "../screens/user/EditProductScreen";
+import UserProductsScreen, { screenOptions as userProductsScreenOptions } from "../screens/user/UserProductsScreen";
+import EditProductScreen, { screenOptions as editProductsScreenOptions } from "../screens/user/EditProductScreen";
 import AuthScreen from '../screens/user/AuthScreen';
 import StartupScreen from "../screens/StartupScreen";
 
@@ -63,6 +63,18 @@ export const ProductsNavigator = () => {
 //     defaultNavigationOptions: defaultNavOptions
 // });
 
+const OrdersStackNavigatior = createStackNavigator();
+
+export const OrdersNavigator = () => {
+    return <OrdersStackNavigatior.Navigator screenOption={defaultNavOptions}>
+        <OrdersStackNavigatior.Screen
+            name="Orders"
+            component={OrdersScreen}
+            options={ordersScreenOptions}
+        />
+    </OrdersStackNavigatior.Navigator>
+}
+
 // const OrdersNavigator = createStackNavigator({
 //     Orders: OrdersScreen,
 //     OrderDetail: OrderDetailScreen
@@ -72,6 +84,23 @@ export const ProductsNavigator = () => {
 //     },
 //     defaultNavigationOptions: defaultNavOptions
 // });
+
+const AdminStackNavigator = createStackNavigator();
+
+export const AdminNavigator = () => {
+    return <AdminNavigator.Navigator screenOption={defaultNavOptions}>
+        <AdminNavigator.Screen
+            name="UserProducts"
+            component={UserProductsScreen}
+            options={userProductsScreenOptions}
+        />
+        <AdminNavigator.Screen
+            name="EditProduct"
+            component={EditProductScreen}
+            options={editProductsScreenOptions}
+        />
+    </AdminNavigator.Navigator>
+}
 
 // const AdminNavigator = createStackNavigator({
 //     UserProducts: UserProductsScreen,
