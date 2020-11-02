@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerItemList } from "@react-navigation/drawer";
 import { Platform, SafeAreaView, Button, View } from "react-native";
 import { useDispatch } from "react-redux";
 
@@ -88,18 +88,18 @@ export const OrdersNavigator = () => {
 const AdminStackNavigator = createStackNavigator();
 
 export const AdminNavigator = () => {
-    return <AdminNavigator.Navigator screenOption={defaultNavOptions}>
-        <AdminNavigator.Screen
+    return <AdminStackNavigator.Navigator screenOption={defaultNavOptions}>
+        <AdminStackNavigator.Screen
             name="UserProducts"
             component={UserProductsScreen}
             options={userProductsScreenOptions}
         />
-        <AdminNavigator.Screen
+        <AdminStackNavigator.Screen
             name="EditProduct"
             component={EditProductScreen}
             options={editProductsScreenOptions}
         />
-    </AdminNavigator.Navigator>
+    </AdminStackNavigator.Navigator>
 }
 
 // const AdminNavigator = createStackNavigator({
@@ -111,6 +111,54 @@ export const AdminNavigator = () => {
 //     },
 //     defaultNavigationOptions: defaultNavOptions
 // });
+
+const ShopDrawerNavigator = createDrawerNavigator();
+
+export const ShopNavigator = () => {
+    return <ShopDrawerNavigator.Navigator
+        drawerContent={props => {
+            return <View>
+                <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+                    <DrawerItemList {...props} />
+                    <View style={{ margin: 20 }}>
+                        <Button
+                            title='Logout'
+                            color={Colors.primary}
+                            onPress={() => {
+                                dispatch(authActions.logout())
+                                props.navigation.navigate('Welcome')
+                            }}
+                        />
+                    </View>
+                </SafeAreaView>
+            </View>
+        }}
+        drawerContentOptions={{
+            activeTintColor: Colors.primary
+        }}>
+        <ShopDrawerNavigator.Screen
+            name="Products"
+            component={ProductsNavigator}
+            options={{
+                drawerIcon: props => <Icon name="shopping-cart" color={props.tintColor} />
+            }}
+        />
+        <ShopDrawerNavigator.Screen
+            name="Orders"
+            component={OrdersNavigator}
+            options={{
+                drawerIcon: props => <Icon name="list" color={props.tintColor} />
+            }}
+        />
+        <ShopDrawerNavigator.Screen
+            name="Admin"
+            component={AdminNavigator}
+            options={{
+                drawerIcon: props => <Icon name="edit" color={props.tintColor} />
+            }}
+        />
+    </ShopDrawerNavigator.Navigator>
+}
 
 // const ShopNavigator = createDrawerNavigator({
 //     Products: ProductsNavigator,
