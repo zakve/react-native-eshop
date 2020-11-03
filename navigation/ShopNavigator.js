@@ -115,6 +115,8 @@ export const AdminNavigator = () => {
 const ShopDrawerNavigator = createDrawerNavigator();
 
 export const ShopNavigator = () => {
+    const dispatch = useDispatch();
+
     return <ShopDrawerNavigator.Navigator
         drawerContent={props => {
             return <View>
@@ -126,7 +128,7 @@ export const ShopNavigator = () => {
                             color={Colors.primary}
                             onPress={() => {
                                 dispatch(authActions.logout())
-                                props.navigation.navigate('Welcome')
+                                //props.navigation.navigate('Welcome')
                             }}
                         />
                     </View>
@@ -188,6 +190,21 @@ export const ShopNavigator = () => {
 //             </View>
 //         }
 //     })
+
+const AuthStackNavigator = createStackNavigator();
+
+export const AuthNavigator = () => {
+    return <AuthStackNavigator.Navigator screenOptions={defaultNavOptions}>
+        <AuthStackNavigator.Screen
+            name="Welcome"
+            component={WelcomeScreen}
+        />
+        <AuthStackNavigator.Screen
+            name="Auth"
+            component={AuthScreen}
+        />
+    </AuthStackNavigator.Navigator>
+}
 
 // const AuthNavigator = createStackNavigator({
 //     Welcome: {

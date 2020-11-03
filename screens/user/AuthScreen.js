@@ -19,7 +19,8 @@ const windowHeight = Dimensions.get('window').height;
 const AuthScreen = props => {
     const dispatch = useDispatch();
 
-    const [isSignup, setIsSignup] = useState(props.navigation.getParam('isSignup'));
+    //const [isSignup, setIsSignup] = useState(props.navigation.getParam('isSignup'));
+    const [isSignup, setIsSignup] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState()
@@ -46,7 +47,7 @@ const AuthScreen = props => {
         try {
             await dispatch(action)
             setIsLoading(false)
-            props.navigation.navigate('Shop')
+            //props.navigation.navigate('Shop')
         } catch (error) {
             setError(error.message)
             setIsLoading(false)
