@@ -13,7 +13,7 @@ import ProductsOverviewScreen, { screenOptions as productsOverviewScreenOptions 
 import ProductDetailScreen, { screenOptions as productDetailScreenOptions } from "../screens/shop/ProductDetailScreen";
 import CartScreen, { screenOptions as cartScreenOptions } from "../screens/shop/CartScreen";
 import OrdersScreen, { screenOptions as ordersScreenOptions } from "../screens/shop/OrdersScreen";
-import OrderDetailScreen from '../screens/shop/OrderDetailScreen';
+import OrderDetailScreen, { screenOptions as orderDetailScreenOptions } from '../screens/shop/OrderDetailScreen';
 import UserProductsScreen, { screenOptions as userProductsScreenOptions } from "../screens/user/UserProductsScreen";
 import EditProductScreen, { screenOptions as editProductsScreenOptions } from "../screens/user/EditProductScreen";
 import AuthScreen from '../screens/user/AuthScreen';
@@ -71,6 +71,11 @@ export const OrdersNavigator = () => {
             name="Orders"
             component={OrdersScreen}
             options={ordersScreenOptions}
+        />
+        <OrdersStackNavigatior.Screen
+            name="OrderDetail"
+            component={OrderDetailScreen}
+            options={orderDetailScreenOptions}
         />
     </OrdersStackNavigatior.Navigator>
 }
