@@ -4,7 +4,7 @@ Build React Native (NO Expo) e-shop based on Udemy course from Maximilian Schwar
 > **STACK**
 > - Firebase
 > - React Native Elements
-> - React Navigation
+> - NEW: React Navigation 5
 > - React Redux
 > - Redux Thunk
 > - Async Storage
