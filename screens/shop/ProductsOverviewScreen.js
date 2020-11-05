@@ -134,7 +134,7 @@ const ProductsOverviewScreen = props => {
 }
 
 export const screenOptions = (navData) => {
-    //const itemsCount = navData.navigation.getParam('itemsCount');
+    const itemsCount = navData.route.params ? navData.route.params.itemsCount : null;
 
     return {
         headerTitle: 'All products',
@@ -162,12 +162,12 @@ export const screenOptions = (navData) => {
                                 color={Platform.OS === 'android' ? 'white' : Colors.primary}
                             />
                             {
-                                // itemsCount > 0 &&
-                                // <Badge
-                                //     status="primary"
-                                //     value={itemsCount}
-                                //     containerStyle={{ position: 'absolute', top: -4, right: -4 }}
-                                // />
+                                itemsCount > 0 &&
+                                <Badge
+                                    status="primary"
+                                    value={itemsCount}
+                                    containerStyle={{ position: 'absolute', top: -4, right: -4 }}
+                                />
                             }
                         </View>
                     }
