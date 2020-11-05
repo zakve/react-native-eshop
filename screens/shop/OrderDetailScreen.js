@@ -6,7 +6,7 @@ import { Text, Tile, ListItem } from "react-native-elements";
 import Colors from "../../constants/Colors";
 
 const OrderDetailScreen = props => {
-    const order = props.navigation.getParam('order');
+    const order = props.route.params.order;
 
     return (
         <>
@@ -34,7 +34,7 @@ const OrderDetailScreen = props => {
     )
 }
 
-OrderDetailScreen.navigationOptions = navData => {
+export const screenOptions = navData => {
     return {
         headerTitle: 'Order detail'
     }
