@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, StyleSheet, ScrollView, KeyboardAvoidingView, ActivityIndicator, Alert } from "react-native";
 import { Input } from "react-native-elements";
 import { CustomHeaderButton, Item } from "../../components/UI/HeaderButton";
 import { useSelector, useDispatch } from "react-redux";
 import * as productsActions from "../../store/actions/products";
-import { Formik } from 'formik'
+import { Formik, useFormikContext } from 'formik'
 import * as yup from 'yup';
 
 // Constants
@@ -12,11 +12,27 @@ import Colors from "../../constants/Colors";
 
 const EditProductScreen = props => {
     const dispatch = useDispatch();
-    const prodId = props.navigation.getParam('productId');
+    const formRef = useRef();
+
+    const prodId = props.route.params ? props.route.params.productId : null;
     const editedProduct = useSelector(state => state.products.userProducts.find(prod => prod.id === prodId))
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
+
+    useEffect(() => {
+        props.navigation.setOptions({
+            headerRight: () => (
+                <CustomHeaderButton>
+                    <Item
+                        title="Accept"
+                        iconName="check"
+                        onPress={() => formRef.current.submitForm()}
+                    />
+                </CustomHeaderButton>
+            ),
+        });
+    }, [submitHandler]);
 
     useEffect(() => {
         if (error) {
@@ -60,6 +76,7 @@ const EditProductScreen = props => {
                         price: editedProduct ? editedProduct.price : '',
                         description: editedProduct ? editedProduct.description : ''
                     }}
+                    innerRef={formRef}
                     onSubmit={values => submitHandler(values)}
                     validationSchema={yup.object().shape({
                         title: yup
@@ -79,9 +96,6 @@ const EditProductScreen = props => {
                     })}
                 >
                     {({ values, handleChange, errors, handleBlur, setFieldTouched, touched, handleSubmit }) => {
-                        useEffect(() => {
-                            props.navigation.setParams({ submit: handleSubmit })
-                        }, [handleSubmit])
 
                         return (
                             <View style={styles.screen}>
@@ -137,19 +151,10 @@ const EditProductScreen = props => {
 }
 
 export const screenOptions = navData => {
-    const submitFn = navData.navigation.getParam('submit');
+    const routeParams = navData.route.params ? navData.route.params : {};
 
     return {
-        headerTitle: navData.navigation.getParam('productId') ? 'Edit product' : 'Add product',
-        headerRight: () => (
-            <CustomHeaderButton>
-                <Item
-                    title="Accept"
-                    iconName="check"
-                    onPress={submitFn}
-                />
-            </CustomHeaderButton>
-        ),
+        headerTitle: routeParams.productId ? 'Edit product' : 'Add product',
     }
 }
 
