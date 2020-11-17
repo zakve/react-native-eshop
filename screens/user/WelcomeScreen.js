@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView, SafeAreaView, View, KeyboardAvoidingView, StyleSheet, Dimensions } from "react-native";
 import { Text, Input, Button, Image } from "react-native-elements";
+import PushNotification from 'react-native-push-notification'
 
 // Constants
 import Colors from '../../constants/Colors';
