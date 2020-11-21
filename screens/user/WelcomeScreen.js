@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, SafeAreaView, View, KeyboardAvoidingView, StyleSheet, Dimensions } from "react-native";
 import { Text, Input, Button, Image } from "react-native-elements";
-import PushNotification from 'react-native-push-notification'
+//import { LocalNotification } from '../../services/LocalPushController'
 
 // Constants
 import Colors from '../../constants/Colors';
@@ -24,6 +24,12 @@ const WelcomeScreen = props => {
                         <Text style={styles.subtitle}>Cool place where you can buy your favorite items.</Text>
 
                         <View style={styles.buttonsContainer}>
+                            {/* <Button
+                                title='NOTIF'
+                                containerStyle={styles.buttonContainer}
+                                buttonStyle={styles.mainButton}
+                                onPress={() => { LocalNotification() }}
+                            /> */}
                             <Button
                                 title='Login now'
                                 containerStyle={styles.buttonContainer}
