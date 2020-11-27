@@ -1,4 +1,5 @@
 import Product from "../../models/product";
+import { check, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
@@ -55,6 +56,8 @@ export const deleteProduct = productId => {
 }
 
 export const createProduct = (title, description, imageUrl, price) => {
+    // Check permissions for iOS
+
     return async (dispatch, getState) => {
         const token = getState().auth.token;
         const userId = getState().auth.userId;

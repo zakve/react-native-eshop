@@ -1,8 +1,6 @@
 import React from 'react';
 import { ScrollView, SafeAreaView, View, KeyboardAvoidingView, StyleSheet, Dimensions, Platform } from "react-native";
 import { Text, Input, Button, Image } from "react-native-elements";
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import PushNotification from "react-native-push-notification";
 
 // Constants
 import Colors from '../../constants/Colors';
@@ -10,16 +8,6 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const WelcomeScreen = props => {
-    const notificationHandler = () => {
-        console.log('notif')
-        setTimeout(() => {
-            PushNotification.localNotification({
-                title: "My Notification Title", // (optional)
-                message: "My Notification Message", // (required)
-            })
-        }, 3000);
-
-    }
     return (
         <View style={styles.bg}>
             <ScrollView>
@@ -35,12 +23,6 @@ const WelcomeScreen = props => {
                         <Text style={styles.subtitle}>Cool place where you can buy your favorite items.</Text>
 
                         <View style={styles.buttonsContainer}>
-                            <Button
-                                title='NOTIF'
-                                containerStyle={styles.buttonContainer}
-                                buttonStyle={styles.mainButton}
-                                onPress={(notificationHandler)}
-                            />
                             <Button
                                 title='Login now'
                                 containerStyle={styles.buttonContainer}
